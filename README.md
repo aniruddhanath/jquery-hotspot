@@ -170,3 +170,8 @@ $("#theElement-b").hotspot({
 ```
 
 #####For better clearity the examples folder can be checke
+=======
+jquery-hotspot
+==============
+
+A jquery plugin for creating and displaying Hotspots in an HTML element.
