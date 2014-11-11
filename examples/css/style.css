@@ -1,0 +1,8 @@
+#theElement-a, #theElement-b {
+	position: relative;
+	display: inline-block;
+}
+
+#theElement-b {
+	margin-left: 200px;
+}

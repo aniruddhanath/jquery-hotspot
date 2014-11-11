@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Image Hotspot</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../jquery.hotspot.css">
+</head>
+<body>
+
+<div id="HotspotPlugin_image">
+	<img src="images/sample-image2.jpg">
+</div>
+
+<script type="text/javascript" src="../jquery.hotspot.js"></script>
+
+<script type="text/javascript">
+	$("#HotspotPlugin_image").hotspot({
+		data: [
+			{ "x":288, "y":190, "Title":"The Title","Message":"Create the Message here" },
+			{ "x":143, "y":200, "Title":"jQuery Hotspot","Message":"This jQuery Plugin lets you create hotspot to any HTML element." }
+		],
+		interactivity: "click",
+	});
+</script>
+
+</body>
+</html>

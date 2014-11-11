@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Image Hotspot</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../jquery.hotspot.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<div id="theElement-a">
+	<img src="images/sample-image1.jpg">
+</div>
+
+<div id="theElement-b">
+	<img src="images/sample-image2.jpg">
+</div>
+
+<script type="text/javascript" src="../jquery.hotspot.js"></script>
+
+<script type="text/javascript">
+	$("#theElement-a").hotspot({
+	mode: "admin",
+	// ...
+	LS_Variable: "HotspotPlugin-a",
+	done_btnId: 'done-a',
+	remove_btnId: 'remove-a',
+	server_btnId: 'server-a',
+	afterSave: function(message) {
+		alert(message);
+	},
+	afterRemove: function(message) {
+		alert(message);
+		window.location.reload();
+	},
+	afterSyncToServer: function(message) {
+		alert(message);
+	}
+});
+
+$("#theElement-b").hotspot({
+	mode: "admin",
+	// other ...
+	LS_Variable: "HotspotPlugin-b",
+	done_btnId: 'done-b',
+	remove_btnId: 'remove-b',
+	server_btnId: 'server-b',
+	afterSave: function(message) {
+		alert(message);
+	},
+	afterRemove: function(message) {
+		alert(message);
+		window.location.reload();
+	},
+	afterSyncToServer: function(message) {
+		alert(message);
+	}
+});
+</script>
+
+</body>
+</html>
