@@ -1,4 +1,4 @@
-juery - Hotspot
+jQuery - Hotspot
 ================
 
 A [jQuery](http://www.jquery.com) plugin for creating *Hotspots* in an HTML element. This plugin operates in two modes, admin and display. The **admin mode** enables user to create hotspots on desired HTML elements. The **display mode** is used for only displaying the hotspots to the end user. The design of the hotspot created are fully customizable. User can add their own CSS class to style the hotspots.
@@ -137,7 +137,8 @@ These functions can be utilized to keep track of the flow of hotspot creation.
 
 > The plugin can be used with any number of HTML elements in a page. However to do so, the `LS_Variable` passed to the plugin should be named uniquely for every instance. This helps plugin to avoid conflicts and while using HTML5 LocalStorage. Also the save, remove and server syncing button should be given seperate id's for each of the instances.
 
-**HTML : **
+
+#####HTML : 
 ```
 <div id="theElement-a">
 	<img src="theImage-a.jpg" width="600" height="400">
@@ -146,7 +147,9 @@ These functions can be utilized to keep track of the flow of hotspot creation.
 	<img src="theImage-b.jpg" width="600" height="400">
 </div>
 ```
-**JavaScript :**
+
+#####JavaScript :
+
 ```
 $("#theElement-a").hotspot({
 	mode: "admin",
