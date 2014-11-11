@@ -1,4 +1,4 @@
-jQuery - Hotspot
+juery - Hotspot
 ================
 
 A [jQuery](http://www.jquery.com) plugin for creating *Hotspots* in an HTML element. This plugin operates in two modes, admin and display. The **admin mode** enables user to create hotspots on desired HTML elements. The **display mode** is used for only displaying the hotspots to the end user. The design of the hotspot created are fully customizable. User can add their own CSS class to style the hotspots.
@@ -20,7 +20,6 @@ The plugin instance will be called with this element.
 }
 ```
 
----
 
 Usage - Display mode
 --------------------
@@ -61,7 +60,6 @@ $("#theElement").hotspot({
 ```
 The data coming from the server-side is expected to be JSON encoded. The object `ajaxOptions` can be utilized to change the http headers, etc.
 
----
 
 Usage - Admin mode
 --------------------
@@ -169,9 +167,4 @@ $("#theElement-b").hotspot({
 });
 ```
 
-#####For better clearity the examples folder can be checke
-=======
-jquery-hotspot
-==============
-
-A jquery plugin for creating and displaying Hotspots in an HTML element.
+#####For better clearity the examples folder can be checked
