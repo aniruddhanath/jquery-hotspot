@@ -12,7 +12,7 @@ Include `jquery.hotspot.js` at the bottom of the HTML page before the closing bo
 </div>
 ```
 The plugin instance will be called with this element.
-> **Note : ** The CSS property, *position* for this element should not be set be *absolute*. Infact the appropriate CSS property for this element should be 
+> **Note:** The CSS property, *position* for this element should not be set be *absolute*. Infact the appropriate CSS property for this element should be 
 ```
 #theElement {
 	position: relative;
@@ -81,7 +81,7 @@ $("#theElement").hotspot({
 Key Features 
 ------------
 
-> Any number of *messages/nodes* can be stuffed in a single hotspot. To do so the `dataStuff` parameter is passed to the plugin. By default there are two nodes (Title and Message)
+######1. Any number of *messages/nodes* can be stuffed in a single hotspot. To do so the `dataStuff` parameter is passed to the plugin. By default there are two nodes (Title and Message)
 
 ```
 $("#theElement").hotspot({
@@ -110,7 +110,7 @@ $("#theElement").hotspot({
 ```
 The ``default`` property in the ``dataStuff`` object above will be overwritten everytime a new hotspot is created.
 
-> The plugin also provides some basic functions that can be invoked after certain events in the process of creation of hotspots.
+######2. The plugin also provides some basic functions that can be invoked after certain events in the process of creation of hotspots.
 
 ```
 $("#theElement").hotspot({
@@ -135,7 +135,7 @@ $("#theElement").hotspot({
 ```
 These functions can be utilized to keep track of the flow of hotspot creation.
 
-> The plugin can be used with any number of HTML elements in a page. However to do so, the `LS_Variable` passed to the plugin should be named uniquely for every instance. This helps plugin to avoid conflicts and while using HTML5 LocalStorage. Also the save, remove and server syncing button should be given seperate id's for each of the instances.
+######3. The plugin can be used with any number of HTML elements in a page. However to do so, the `LS_Variable` passed to the plugin should be named uniquely for every instance. This helps plugin to avoid conflicts and while using HTML5 LocalStorage. Also the save, remove and server syncing button should be given seperate id's for each of the instances.
 
 
 #####HTML : 
