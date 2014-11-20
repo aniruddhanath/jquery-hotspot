@@ -1,8 +1,18 @@
-#theElement-a, #theElement-b {
+#theElement-0, 
+#theElement-a, 
+#theElement-b {
 	position: relative;
 	display: inline-block;
 }
 
-#theElement-b {
-	margin-left: 200px;
+body {
+	background: #efefef;
+}
+
+.container {
+	margin-top: 20px;
+}
+
+.controls {
+	margin: 10px;
 }
