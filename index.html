@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>jQuery Hotspot by Aniruddha22</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">jQuery Hotspot</h1>
+      <h2 class="project-tagline">A jquery plugin for creating and displaying Hotspots in an HTML element.</h2>
+      <a href="https://github.com/Aniruddha22/jquery-hotspot" class="btn">View on GitHub</a>
+      <a href="https://github.com/Aniruddha22/jquery-hotspot/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Aniruddha22/jquery-hotspot/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><strong>jQuery-hotspot</strong> is a <a href="http://www.jquery.com">jQuery</a> plugin for creating <em>Hotspots</em> in an HTML element. This plugin operates in two modes, admin and display. The <strong>admin mode</strong> enables user to create hotspots on desired HTML elements. The <strong>display mode</strong> is used for only displaying the hotspots to the end user. The design of the hotspot created are fully customizable. User can add their own CSS class to style the hotspots.</p>
+
+<h3>
+<a id="view-demo" class="anchor" href="#view-demo" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="http://jquery-hotspot.herokuapp.com/">View Demo</a>
+</h3>
+
+<h2>
+<a id="the-setup" class="anchor" href="#the-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Setup</h2>
+
+<p>Include <code>jquery.hotspot.js</code> at the bottom of the HTML page before the closing body tag. Wrap the HTML element for which the hotspot is to be obtained with another element. Also include the <code>jquery.hotspot.css</code> file to go with some of the default design decision.</p>
+
+<pre><code>&lt;div id="theElement"&gt;
+    &lt;img src="theImage.jpg" width="600" height="400"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The plugin instance will be called with this element.</p>
+
+<blockquote>
+<p><strong>Note:</strong> The CSS property, <em>position</em> for this element should not be set be <em>absolute</em>. Infact the appropriate CSS property for this element should be </p>
+
+<pre><code>#theElement {
+    position: relative;
+    display: inline-block;
+}
+</code></pre>
+</blockquote>
+
+<h2>
+<a id="usage---display-mode" class="anchor" href="#usage---display-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage - Display mode</h2>
+
+<p>The data associated with the hotspots can be passed in directly to the plugin.
+The data can also be fetched from an ajax call.</p>
+
+<p>There are three options given for hotspot-interactivity - hover, click and none.</p>
+
+<ul>
+<li>
+<strong>hover</strong> : The data associated with the hotspot will show up on <em>hovering</em> over spot.</li>
+<li>
+<strong>click</strong> : The data associated will show up on <em>clicking</em> the spot.</li>
+<li>
+<strong>none</strong> : The data will be static and would not be affected by any events.</li>
+</ul>
+
+<h3>
+<a id="basic-call-with-known-coordinates" class="anchor" href="#basic-call-with-known-coordinates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic call with known coordinates:</h3>
+
+<pre><code>$('#theElement').hotspot(
+    data: [
+        { "x":288, "y":390, "Title":"The Title","Message":"Create the Message here" },
+        { "x":143, "y":400, "Title":"jQuery Hotspot","Message":"This jQuery Plugin lets you create hotspot to any HTML element." }
+    ],
+    tag: 'img', //optional (default is img)
+    interactivity: "hover", // options : click, none (default is hover)
+    hotspotClass: 'Hotspot'
+);
+</code></pre>
+
+<p>The <code>data</code> object above can be populated with any number of properties and can be designed with appropriate CSS. The <code>tag</code> variable passed to the plugin determines the type of HTML tag for which the hotspot is obtained. The <code>hotspotClass</code> is class of the hotspots created. One can change the look of the  hotspot by applying some CSS to this class.</p>
+
+<h3>
+<a id="fetching-data-via-ajax-call" class="anchor" href="#fetching-data-via-ajax-call" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fetching data via AJAX call</h3>
+
+<pre><code>$("#theElement").hotspot({
+    ajax: true, // Switching on the ajax
+    ajaxOptions: {
+        url: 'parse.php',
+        type: 'GET',
+        ...
+    },
+    interactivity: "hover" // options : click, none (default is hover)
+});
+</code></pre>
+
+<p>The data coming from the server-side is expected to be JSON encoded. The object <code>ajaxOptions</code> can be utilized to change the http headers, etc.</p>
+
+<h2>
+<a id="usage---admin-mode" class="anchor" href="#usage---admin-mode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage - Admin mode</h2>
+
+<h3>
+<a id="standard-call" class="anchor" href="#standard-call" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standard call</h3>
+
+<pre><code>$("#theElement").hotspot({
+    mode: "admin", // Switching to admin mode
+    ajax: true, // Turn on ajax
+    ajaxOptions: {
+        url: 'parse.php',
+        type: 'POST',
+        ...
+    },
+    interactivity: "hover" // options : click, none (default is hover)
+});
+</code></pre>
+
+<p><code>ajax</code> and <code>ajaxOptions</code> are required here so that the hotspot that are being created in the admin mode get stored in the server. However if someone turn off the ajax, then the data get be stored in the browser's LocalStorage.</p>
+
+<h2>
+<a id="key-features-" class="anchor" href="#key-features-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Features </h2>
+
+<h6>
+<a id="1-any-number-of-messagesnodes-can-be-stuffed-in-a-single-hotspot-to-do-so-the-datastuff-parameter-is-passed-to-the-plugin-by-default-there-are-two-nodes-title-and-message" class="anchor" href="#1-any-number-of-messagesnodes-can-be-stuffed-in-a-single-hotspot-to-do-so-the-datastuff-parameter-is-passed-to-the-plugin-by-default-there-are-two-nodes-title-and-message" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Any number of <em>messages/nodes</em> can be stuffed in a single hotspot. To do so the <code>dataStuff</code> parameter is passed to the plugin. By default there are two nodes (Title and Message)</h6>
+
+<pre><code>$("#theElement").hotspot({
+    mode: "admin", // Switching to admin mode
+    ajax: true, // Turn on ajax
+    ajaxOptions: {
+        url: 'parse.php',
+        type: 'POST',
+        ...
+    },
+    dataStuff: [
+        {
+            'property': 'Time',
+            'default': '5:40am'
+        },
+        {
+            'property': 'Date',
+            'default': '12/11/2014'
+        },
+        {
+            'property': 'Place',
+            'default': 'Siberia'
+        },
+    ]
+});
+</code></pre>
+
+<p>The <code>default</code> property in the <code>dataStuff</code> object above will be overwritten everytime a new hotspot is created.</p>
+
+<h6>
+<a id="2-the-plugin-also-provides-some-basic-functions-that-can-be-invoked-after-certain-events-in-the-process-of-creation-of-hotspots" class="anchor" href="#2-the-plugin-also-provides-some-basic-functions-that-can-be-invoked-after-certain-events-in-the-process-of-creation-of-hotspots" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. The plugin also provides some basic functions that can be invoked after certain events in the process of creation of hotspots.</h6>
+
+<pre><code>$("#theElement").hotspot({
+    mode: "admin", // Switching to admin mode
+    ajax: true, // Turn on ajax
+    ajaxOptions: {
+        url: 'parse.php',
+        type: 'POST',
+        ...
+    },
+    afterSave: function(message) {
+        alert(message);
+    },
+    afterRemove: function(message) {
+        alert(message);
+        window.location.reload();
+    },
+    afterSyncToServer: function(message) {
+        alert(message);
+    }
+});
+</code></pre>
+
+<p>These functions can be utilized to keep track of the flow of hotspot creation.</p>
+
+<h6>
+<a id="3-the-plugin-can-be-used-with-any-number-of-html-elements-in-a-page-however-to-do-so-the-ls_variable-passed-to-the-plugin-should-be-named-uniquely-for-every-instance-this-helps-plugin-to-avoid-conflicts-and-while-using-html5-localstorage-also-the-save-remove-and-server-syncing-button-should-be-given-seperate-ids-for-each-of-the-instances" class="anchor" href="#3-the-plugin-can-be-used-with-any-number-of-html-elements-in-a-page-however-to-do-so-the-ls_variable-passed-to-the-plugin-should-be-named-uniquely-for-every-instance-this-helps-plugin-to-avoid-conflicts-and-while-using-html5-localstorage-also-the-save-remove-and-server-syncing-button-should-be-given-seperate-ids-for-each-of-the-instances" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. The plugin can be used with any number of HTML elements in a page. However to do so, the <code>LS_Variable</code> passed to the plugin should be named uniquely for every instance. This helps plugin to avoid conflicts and while using HTML5 LocalStorage. Also the save, remove and server syncing button should be given seperate id's for each of the instances.</h6>
+
+<h5>
+<a id="html-" class="anchor" href="#html-" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML :</h5>
+
+<pre><code>&lt;div id="theElement-a"&gt;
+    &lt;img src="theImage-a.jpg" width="600" height="400"&gt;
+&lt;/div&gt;
+&lt;div id="theElement-b"&gt;
+    &lt;img src="theImage-b.jpg" width="600" height="400"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h5>
+<a id="javascript-" class="anchor" href="#javascript-" aria-hidden="true"><span class="octicon octicon-link"></span></a>JavaScript :</h5>
+
+<pre><code>$("#theElement-a").hotspot({
+    mode: "admin",
+    ...
+    LS_Variable: "HotspotPlugin-a",
+    done_btnId: 'done-a',
+    remove_btnId: 'remove-a',
+    server_btnId: 'server-a',
+});
+
+$("#theElement-b").hotspot({
+    mode: "admin",
+    ...
+    LS_Variable: "HotspotPlugin-b",
+    done_btnId: 'done-b',
+    remove_btnId: 'remove-b',
+    server_btnId: 'server-b',
+});
+</code></pre>
+
+<h5>
+<a id="for-better-clearity-the-examples-folder-can-be-checked" class="anchor" href="#for-better-clearity-the-examples-folder-can-be-checked" aria-hidden="true"><span class="octicon octicon-link"></span></a>For better clearity the examples folder can be checked</h5>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Aniruddha22/jquery-hotspot">jQuery Hotspot</a> is maintained by <a href="https://github.com/Aniruddha22">Aniruddha22</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
