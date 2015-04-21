@@ -1,0 +1,59 @@
+#theElement-0, 
+#theElement-a, 
+#theElement-b {
+	position: relative;
+	display: inline-block;
+}
+
+.controls {
+	margin: 10px;
+	background: #157A76;
+}
+
+.controls:hover {
+	background: #156888;
+}
+
+.Hotspot {
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	background: #1ABC9C;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 200;
+	margin-left: -10px;
+	margin-top: -10px;
+}
+
+.Hotspot > div {
+	background: rgba(26, 188, 156, 0.8);
+	width: 140px;
+	height: 94px;
+	margin: -94px -60px;
+	border-radius: 4px;
+	overflow: hidden;
+	font-size: 10px;
+	display:none; /* Required */
+}
+.Hotspot:hover > div {
+	display: block; /* Required */
+}
+.Hotspot > div > .Hotspot_Title {
+	background: rgba(255, 255, 255, 0.4);
+	height: 20px;
+	font-weight: bold;
+	padding: 4px 10px;
+}
+.Hotspot > div > .Hotspot_Message {
+	background: rgba(255, 255, 255, 0.4);
+	margin-top: 2px;
+	padding: 4px 10px;
+	height: 72px;
+	overflow-y: auto;
+}
+
+.panel {
+	margin-bottom: 20px;
+}
+
