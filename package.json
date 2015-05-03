@@ -1,0 +1,27 @@
+{
+  "name": "jquery-hotspot",
+  "version": "1.0.0",
+  "description": "jQuery plugin to create editable Hotspots on any HTML elements",
+  "main": "jquery.hotspot.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anhee/jquery-hotspot.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "jquery-hotspot"
+  ],
+  "author": "Aniruddha Nath",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anhee/jquery-hotspot/issues"
+  },
+  "homepage": "http://anhee.github.io/jquery-hotspot"
+}
