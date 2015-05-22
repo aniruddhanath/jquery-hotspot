@@ -352,7 +352,7 @@
 					HotspotPlugin_mode: "Store"
 				}
 			};
-			var ajaxSettings = $.extend({}, this.config.ajaxOptionsForStoring, dataObject);
+			var ajaxSettings = $.extend({}, this.config.ajaxOptions, dataObject);
 			$.ajax(ajaxSettings)
 			.done(function() {
 				widget.broadcast = 'Sync was successful';
