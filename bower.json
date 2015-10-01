@@ -1,0 +1,18 @@
+{
+  "name": "jquery-hotspot",
+  "version": "1.0.1",
+  "homepage": "https://github.com/anhee/jquery-hotspot",
+  "authors": [
+    "Aniruddha Nath <aniruddhanath1@gmail.com>"
+  ],
+  "description": "A jQuery Plugin to create hotspot for an HTML element",
+  "main": "jquery.hotspot.js",
+  "keywords": [
+    "jquery-hotspot",
+    "jquery-plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "example"
+  ]
+}
