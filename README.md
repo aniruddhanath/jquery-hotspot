@@ -7,6 +7,11 @@ A [jQuery](http://www.jquery.com) plugin for creating *Hotspots* in an HTML elem
 
 The Setup
 ---------
+
+```
+bower install jquery-hotspot
+```
+
 Include `jquery.hotspot.js` at the bottom of the HTML page before the closing body tag. Wrap the HTML element for which the hotspot is to be obtained with another element. Also include the `jquery.hotspot.css` file to go with some of the default design decision.
 ```
 <div id="theElement">
