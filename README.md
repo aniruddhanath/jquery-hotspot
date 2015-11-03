@@ -173,7 +173,7 @@ $("#theElement-b").hotspot({
 	done_btnId: 'done-b',
 	remove_btnId: 'remove-b',
 	server_btnId: 'server-b',
-});purplesq/purple
+});
 ```
 
 #####For better clarity the examples folder can be checked
