@@ -161,10 +161,14 @@
 			var offset = $(this).offset();
 			var relativeX = (event.pageX - offset.left);
 			var relativeY = (event.pageY - offset.top);
+			var img_height = $(this).height();
+			var img_width = $(this).width();
+			var relativeXpercent = roundToTwo(relativeX*100/img_width);
+			var relativeYpercent = roundToTwo(relativeY*100/img_height);
 
 			var dataStuff = widget.config.dataStuff;
 
-			var dataBuild = {x: relativeX, y: relativeY};
+			var dataBuild = {x: relativeXpercent, y: relativeYpercent};
 
 			for (var i = 0; i < dataStuff.length; i++) {
 				var val = dataStuff[i];
@@ -195,8 +199,8 @@
 			var div = $('<div/>', {
 				html: htmlBuilt
 			}).css({
-				'top': relativeY + 'px',
-				'left': relativeX + 'px'
+				'top': relativeYpercent + '%',
+				'left': relativeXpercent + '%'
 			}).addClass(widget.config.hotspotClass + ' ' + widget.config.hotspotAuxClass).appendTo(widget.element);
 
 			if (widget.config.interactivity === 'click') {
@@ -282,8 +286,8 @@
 			var div = $('<div/>', {
 				html: htmlBuilt
 			}).css({
-				'top': el.y + 'px',
-				'left': el.x + 'px'
+				'top': el.y + '%',
+				'left': el.x + '%'
 			}).addClass(this.config.hotspotClass).appendTo(this.element);
 
 			if (widget.config.interactivity === 'click') {
@@ -373,3 +377,7 @@
 	}
 
 }(jQuery));
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2")  + "e-2");
+}
