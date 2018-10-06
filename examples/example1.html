@@ -17,7 +17,7 @@
 		</div>
 		<div class="panel-body">
 			<h4>Click the Spots!</h4>
-			<div id="HotspotPlugin_image">
+			<div id="theElement-0">
 				<img src="images/sample-image.png">
 			</div>
 		</div>
@@ -28,12 +28,13 @@
 <script type="text/javascript" src="../jquery.hotspot.js"></script>
 
 <script type="text/javascript">
-	$("#HotspotPlugin_image").hotspot({
+	$("#theElement-0").hotspot({
+		mode: 'display',
 		data: [
-			{ "x":288, "y":290, "Title":"The Title","Message":"Create the Message here" },
-			{ "x":143, "y":400, "Title":"jQuery Hotspot","Message":"This jQuery Plugin lets you create hotspot to any HTML element." }
+			{"x":32.975781250000004,"y":30.447309176672384,"Title":"Delhi","Message":"Delhi, India's capital territory, is a massive metropolitan area in the country's north. In Old Delhi, a neighborhood dating to the 1600s, stands the imposing Mughal-era Red Fort, a symbol of India, and the sprawling Jama Masjid mosque, whose courtyard accommodates 25,000 people. Nearby is Chandni Chowk, a vibrant bazaar filled with food carts, sweets shops and spice stalls."},
+			{"x":17.57578125,"y":61.15056818181818,"Title":"Mumbai","Message":"Mumbai (formerly called Bombay) is a densely populated city on India's west coast. A financial center, it's India's largest city. On the Mumbai Harbour waterfront stands the iconic Gateway of India stone arch, built by the British Raj in 1924. Offshore, nearby Elephanta Island holds ancient cave temples dedicated to the Hindu god Shiva. The city's also famous as the heart of the Bollywood film industry."}
 		],
-		interactivity: "click",
+		interactivity: "click"
 	});
 </script>
 
