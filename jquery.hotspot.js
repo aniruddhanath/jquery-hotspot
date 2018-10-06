@@ -2,7 +2,7 @@
  * jQuery Hotspot : A jQuery Plugin to create hotspot for an HTML element
  *
  * Author: Aniruddha Nath
- * Version: 2.0.0
+ * Version: 2.0.1
  * 
  * Website: https://github.com/aniruddhanath/jquery-hotspot
  * 
