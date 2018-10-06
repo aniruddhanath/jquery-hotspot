@@ -84,7 +84,7 @@ button.HotspotPlugin_Save,
 button.HotspotPlugin_Remove,
 button.HotspotPlugin_Send {
 	position: absolute;
-	bottom: -30px;
+	bottom: -35px;
 	color: #fff;
 	display: inline-block;
 	padding: 4px 6px;

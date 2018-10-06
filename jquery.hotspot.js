@@ -127,22 +127,22 @@
 		// `data` array: to contain hotspot objects
 		var data = [];
 
-		// Waiting for image to load before putting overlay
-		// TODO: avoid this when image is already loaded
-		$(this.tagElement).one('load', function(event) {
-			var tHeight = $(widget.tagElement[0]).height(),
-				tWidth = $(widget.tagElement[0]).width(),
-				pHeight = $(widget.element[0]).height(),
-				pWidth = $(widget.element[0]).width();
+		var tHeight = $(widget.tagElement[0]).height(),
+			tWidth = $(widget.tagElement[0]).width(),
+			tOffset = widget.tagElement.offset(),
+			pHeight = $(widget.element[0]).height(),
+			pWidth = $(widget.element[0]).width(),
+			pOffset = widget.element.offset();
 
-			// Create overlay for the tagElement
-			$('<span/>', {
-				html: '<p>This is Admin-mode. Click this Pane to Store Messages</p>'
-			}).css({
-				'height': (tHeight/pHeight)*100 + '%',
-				'width': (tWidth/pWidth)*100 + '%'
-			}).addClass(widget.config.hotspotOverlayClass).appendTo(widget.element);
-		});
+		// Create overlay for the tagElement
+		$('<span/>', {
+			html: '<p>This is Admin-mode. Click this Pane to Store Messages</p>'
+		}).css({
+			'height': (tHeight/pHeight)*100 + '%',
+			'width': (tWidth/pWidth)*100 + '%',
+			'left': (tOffset.left - pOffset.left) + 'px',
+			'top': (tOffset.top - pOffset.top) + 'px'
+		}).addClass(widget.config.hotspotOverlayClass).appendTo(widget.element);
 
 		// Handle click on overlay mask
 		this.element.delegate('span', 'click', function(event) {
@@ -190,7 +190,6 @@
 		$(this.element).delegate('button#' + ('save' + button_id), 'click', function(event) {
 			event.preventDefault();
 			event.stopPropagation();
-
 			widget.saveData(data);
 			data = [];
 		});
@@ -262,13 +261,15 @@
 		});
 
 		var height = $(this.tagElement[0]).height(),
-				width = $(this.tagElement[0]).width();
+				width = $(this.tagElement[0]).width(),
+				offset = this.tagElement.offset(),
+				parent_offset = this.element.offset();
 
 		var spot = $('<div/>', {
 			html: spot_html
 		}).css({
-			'top': (hotspot.y * height / 100) + 'px',
-			'left': (hotspot.x * width / 100) + 'px'
+			'top': (hotspot.y * height / 100) + (offset.top - parent_offset.top) + 'px',
+			'left': (hotspot.x * width / 100) + (offset.left - parent_offset.left) + 'px'
 		}).addClass(this.config.hotspotClass).appendTo(this.element);
 
 		if (unsaved) {
