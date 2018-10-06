@@ -2,7 +2,10 @@
 #theElement-a, 
 #theElement-b {
 	position: relative;
-	display: inline-block;
+}
+
+img {
+	width: 100%;
 }
 
 body {
@@ -13,6 +16,6 @@ body {
 	margin-top: 20px;
 }
 
-.controls {
-	margin: 10px;
+.panel-body {
+	padding: 15px 15px 50px;
 }

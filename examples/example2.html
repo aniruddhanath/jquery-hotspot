@@ -17,13 +17,15 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-md-6">
+				<code>interactivity: `click`</code>
 				<div id="theElement-a">
-					<img src="images/sample-image1.jpg" width="480" height="400">
+					<img src="images/sample-image1.jpg">
 				</div>
 			</div>
 			<div class="col-md-6">
+				<code>interactivity: `hover`</code>
 				<div id="theElement-b">
-					<img src="images/sample-image2.jpg" width="480" height="400">
+					<img src="images/sample-image2.jpg">
 				</div>
 			</div>
 		</div>
@@ -35,61 +37,50 @@
 
 <script type="text/javascript">
 
-$("#theElement-a").hotspot({
-	mode: "admin",
-	// uncomment
-	/*ajax: true,
-	ajaxOptions: {
-		'url': 'links.to.server'
-	},*/
-	LS_Variable: "HotspotPlugin-a",
-	done_btnId: 'done-a',
-	remove_btnId: 'remove-a',
-	server_btnId: 'server-a',
+	$(document).ready(function() {
+		$("#theElement-a").hotspot({
+			mode: "admin",
+			// uncomment
+			/*ajax: true,
+			ajaxOptions: {
+				'url': 'links.to.server'
+			},*/
+			interactivity: "click",
+			LS_Variable: "HotspotPlugin-a",
 
-	done_btnClass: 'btn btn-success controls',
-	remove_btnClass: 'btn btn-danger controls',
-	sync_btnClass: 'btn btn-info controls',
+			afterSave: function(err, data) {
+				if (err) {
+					console.log('Error occurred', err);
+					return;
+				}
+				alert('Saved');
+				// `data` in json format can be stored
+				//  & passed in `display` mode for the image
+				console.log(data);
+			},
+			afterRemove: function(err, message) {
+				if (err) {
+					console.log('Error occurred', err);
+					return;
+				}
+				alert(message);
+				window.location.reload();
+			},
+			afterSend: function(err, message) {
+				if (err) {
+					console.log('Error occurred', err);
+					return;
+				}
+				alert(message);
+			}
+		});
 
-	afterSave: function(message) {
-		alert(message);
-	},
-	afterRemove: function(message) {
-		alert(message);
-		window.location.reload();
-	},
-	afterSyncToServer: function(message) {
-		alert(message);
-	}
-});
-
-$("#theElement-b").hotspot({
-	mode: "admin",
-	// uncomment
-	/*ajax: true,
-	ajaxOptions: {
-		'url': 'links.to.server'
-	},*/
-	LS_Variable: "HotspotPlugin-b",
-	done_btnId: 'done-b',
-	remove_btnId: 'remove-b',
-	server_btnId: 'server-b',
-
-	done_btnClass: 'btn btn-success controls',
-	remove_btnClass: 'btn btn-danger controls',
-	sync_btnClass: 'btn btn-info controls',
-
-	afterSave: function(message) {
-		alert(message);
-	},
-	afterRemove: function(message) {
-		alert(message);
-		window.location.reload();
-	},
-	afterSyncToServer: function(message) {
-		alert(message);
-	}
-});
+		$("#theElement-b").hotspot({
+			mode: "admin",
+			interactivity: "hover",
+			LS_Variable: "HotspotPlugin-b"
+		});
+	});
 </script>
 
 </body>
