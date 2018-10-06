@@ -2,9 +2,9 @@
  * jQuery Hotspot : A jQuery Plugin to create hotspot for an HTML element
  *
  * Author: Aniruddha Nath
- * Version: 1.0.0
+ * Version: 2.0.1
  * 
- * Website: https://github.com/Aniruddha22/jquery-hotspot
+ * Website: https://github.com/aniruddhanath/jquery-hotspot
  * 
  * Description: A jquery plugin for creating and displaying Hotspots in an HTML element.
  *	It operates in two mode, admin and display. The design of the hotspot created are fully customizable.
@@ -14,56 +14,50 @@
  */
 
 ;(function($) {
-	
-	// Default settings for the plugin
+
 	var defaults = {
 
-		// Data
+		// Object to hold the hotspot data points
 		data: [],
 
-		// Hotspot Tag
+		// Element tag upon which hotspot is (to be) build
 		tag: 'img',
 
-		// Mode of the plugin
-		// Options: admin, display
+		// Specify mode in which the plugin is to be used
+		// `admin`: Allows to create hotspot from UI
+		// `display`: Display hotspots from `data` object
 		mode: 'display',
 
-		// HTML5 LocalStorage variable
+		// HTML5 LocalStorage variable where hotspot data points are (will be) stored
 		LS_Variable: '__HotspotPlugin_LocalStorage',
 
-		// Hidden class for hiding the data
-		hiddenClass: 'hidden',
+		// CSS class for hotspot data points
+		hotspotClass: 'HotspotPlugin_Hotspot',
 
-		// Event on which the data will show up
-		// Options: click, hover, none
+		// CSS class which is added when hotspot is to hidden
+		hiddenClass: 'HotspotPlugin_Hotspot_Hidden',
+
+		// Event on which the hotspot data point will show up
+		// allowed values: `click`, `hover`, `none`
 		interactivity: 'hover',
 
-		// Buttons' id (Used only in Admin mode)
-		done_btnId: 'HotspotPlugin_Done',
-		remove_btnId: 'HotspotPlugin_Remove',
-		sync_btnId: 'HotspotPlugin_Server',
+		// Action button CSS classes used in `admin` mode
+		save_Button_Class: 'HotspotPlugin_Save',
+		remove_Button_Class: 'HotspotPlugin_Remove',
+		send_Button_Class: 'HotspotPlugin_Send',
 
-		// Buttons class
-		done_btnClass: 'btn btn-success HotspotPlugin_Done',
-		remove_btnClass: 'btn btn-danger HotspotPlugin_Remove',
-		sync_btnClass: 'btn btn-info HotspotPlugin_Server',
+		// CSS class for hotspot data points that are yet to be saved
+		unsavedHotspotClass: 'HotspotPlugin_Hotspot_Unsaved',
 
-		// Classes for Hotspots
-		hotspotClass: 'HotspotPlugin_Hotspot',
-		hotspotAuxClass: 'HotspotPlugin_inc',
-
-		// Overlay
+		// CSS class for overlay used in `admin` mode
 		hotspotOverlayClass: 'HotspotPlugin_Overlay',
 
-		// Enable ajax
+		// Enable `ajax` to read data directly from server
 		ajax: false,
+		ajaxOptions: { url: '' },
 
-		ajaxOptions: {
-			url: ''
-		},
-
-		// No. of variables included in the spots
-		dataStuff: [
+		// Hotspot schema
+		schema: [
 			{
 				'property': 'Title',
 				'default': 'jQuery Hotspot'
@@ -75,301 +69,295 @@
 		]
 	};
 	
-	//Constructor
+	// Constructor
 	function Hotspot(element, options) {
-		
+
+		var widget = this;
+
 		// Overwriting defaults with options
 		this.config = $.extend(true, {}, defaults, options);
 		
 		this.element = element;
-		this.imageEl = element.find(this.config.tag);
-		this.imageParent = this.imageEl.parent();
 
-		this.broadcast = '';
+		// `tagElement`: element for which hotspots are being done
+		this.tagElement = element.find(this.config.tag);
 
-		var widget = this;
-
-		// Event API for users
-		$.each(this.config, function(index, val) {
-			if (typeof val === 'function') {
-				widget.element.on(index + '.hotspot', function() {
-					val(widget.broadcast);
+		// Register event listeners
+		$.each(this.config, function(index, fn) {
+			if (typeof fn === 'function') {
+				widget.element.on(index + '.hotspot', function(event, err, data) {
+					fn(err, data);
 				});
-			};
+			}
 		});
 
 		this.init();
 	}
 
 	Hotspot.prototype.init = function() {
+		this.parseData();
 
-		this.getData();
+		// Fetch data for `display` mode with `ajax` enabled
+		if (this.config.mode != 'admin' && this.config.ajax) {
+			this.fetchData();
+		}
 
+		// Nothing else to do here for `display` mode
 		if (this.config.mode != 'admin') {
 			return;
-		};
+		}
 
-		var height = this.imageEl[0].height;
-		var width = this.imageEl[0].width;
+		this.setupWorkspace();
+	};
 
-		// Masking the image
+	Hotspot.prototype.createId = function() {
+		var id = "";
+		var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+		for (var i = 0; i < 7; i++) {
+			id += letters.charAt(Math.floor(Math.random() * letters.length));
+		}
+
+		return id;
+	};
+
+	Hotspot.prototype.setupWorkspace = function() {
+		var widget = this;
+
+		// `data` array: to contain hotspot objects
+		var data = [];
+
+		var tHeight = $(widget.tagElement[0]).height(),
+			tWidth = $(widget.tagElement[0]).width(),
+			tOffset = widget.tagElement.offset(),
+			pHeight = $(widget.element[0]).height(),
+			pWidth = $(widget.element[0]).width(),
+			pOffset = widget.element.offset();
+
+		// Create overlay for the tagElement
 		$('<span/>', {
 			html: '<p>This is Admin-mode. Click this Pane to Store Messages</p>'
 		}).css({
-			'height': height + 'px',
-			'width': width + 'px'
-		}).addClass(this.config.hotspotOverlayClass).appendTo(this.imageParent);
+			'height': (tHeight/pHeight)*100 + '%',
+			'width': (tWidth/pWidth)*100 + '%',
+			'left': (tOffset.left - pOffset.left) + 'px',
+			'top': (tOffset.top - pOffset.top) + 'px'
+		}).addClass(widget.config.hotspotOverlayClass).appendTo(widget.element);
 
-		var widget = this;
-		var data = [];
-		
-		// Adding controls
-		$('<button/>', {
-			text: "Save Data"
-		}).prop('id', this.config.done_btnId).addClass(this.config.done_btnClass).appendTo(this.imageParent);
-
-		$('<button/>', {
-			text: "Remove All"
-		}).prop('id', this.config.remove_btnId).addClass(this.config.remove_btnClass).appendTo(this.imageParent);
-
-		$(this.imageParent).delegate('button#' + this.config.done_btnId, 'click', function(event) {
+		// Handle click on overlay mask
+		this.element.delegate('span', 'click', function(event) {
 			event.preventDefault();
-			widget.storeData(data);
+			event.stopPropagation();
+
+			// Get coordinates
+			var offset = $(this).offset(),
+				relativeX = (event.pageX - offset.left),
+				relativeY = (event.pageY - offset.top);
+
+			var height = $(widget.tagElement[0]).height(),
+				width = $(widget.tagElement[0]).width();
+
+			var hotspot = { x: relativeX/width*100, y: relativeY/height*100 };
+
+			var schema = widget.config.schema;
+
+			for (var i = 0; i < schema.length; i++) {
+				var val = schema[i];
+				var fill = prompt('Please enter ' + val.property, val.default);
+				if (fill === null) {
+					return;
+				}
+				hotspot[val.property] = fill;
+			}
+
+			data.push(hotspot);
+
+			// Temporarily display the spot
+			widget.displaySpot(hotspot, true);
+		});
+		
+		// Register admin controls
+		var button_id = this.createId();
+
+		$('<button/>', {
+			text: "Save data"
+		}).prop('id', ('save' + button_id)).addClass(this.config.save_Button_Class).appendTo(this.element);
+
+		$('<button/>', {
+			text: "Remove data"
+		}).prop('id', ('remove' + button_id)).addClass(this.config.remove_Button_Class).appendTo(this.element);
+
+		$(this.element).delegate('button#' + ('save' + button_id), 'click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			widget.saveData(data);
 			data = [];
 		});
 
-		$(this.imageParent).delegate('button#' + this.config.remove_btnId, 'click', function(event) {
+		$(this.element).delegate('button#' + ('remove' + button_id), 'click', function(event) {
 			event.preventDefault();
+			event.stopPropagation();
 			widget.removeData();
 		});
 
 		if (this.config.ajax) {
 			$('<button/>', {
-				text: "To Server"
-			}).prop('id', this.config.sync_btnId).addClass(this.config.sync_btnClass).appendTo(this.imageParent);
+				text: "Send to server"
+			}).prop('id', ('send' + button_id)).addClass(this.config.send_Button_Class).appendTo(this.element);
 
-			$(this.imageParent).delegate('button#' + this.config.sync_btnId, 'click', function(event) {
+			$(this.element).delegate('button#' + ('send' + button_id), 'click', function(event) {
 				event.preventDefault();
-				widget.syncToServer();
+				event.stopPropagation();
+				widget.sendData();
 			});
-		};
-
-		// Start storing
-		this.element.delegate('span', 'click', function(event) {
-			event.preventDefault();
-			
-			var offset = $(this).offset();
-			var relativeX = (event.pageX - offset.left);
-			var relativeY = (event.pageY - offset.top);
-
-			var dataStuff = widget.config.dataStuff;
-
-			var dataBuild = {x: relativeX, y: relativeY};
-
-			for (var i = 0; i < dataStuff.length; i++) {
-				var val = dataStuff[i];
-				var fill = prompt('Please enter ' + val.property, val.default);
-				if (fill === null) {
-					return;
-				};
-				dataBuild[val.property] = fill;
-			};
-
-			data.push(dataBuild);
-
-			if (widget.config.interactivity === 'none') {
-				var htmlBuilt = $('<div/>');
-			} else {
-				var htmlBuilt = $('<div/>').addClass(widget.config.hiddenClass);
-			}
-			
-
-			$.each(dataBuild, function(index, val) {
-				if (typeof val === "string") {
-					$('<div/>', {
-						html: val
-					}).addClass('Hotspot_' + index).appendTo(htmlBuilt);
-				};
-			});
-
-			var div = $('<div/>', {
-				html: htmlBuilt
-			}).css({
-				'top': relativeY + 'px',
-				'left': relativeX + 'px'
-			}).addClass(widget.config.hotspotClass + ' ' + widget.config.hotspotAuxClass).appendTo(widget.element);
-
-			if (widget.config.interactivity === 'click') {
-				div.on(widget.config.interactivity, function(event) {
-					$(this).children('div').toggleClass(widget.config.hiddenClass);
-				});
-				htmlBuilt.css('display', 'block');
-			} else {
-				htmlBuilt.removeClass(widget.config.hiddenClass);
-			}
-
-			if (widget.config.interactivity === 'none') {
-				htmlBuilt.css('display', 'block');
-			};
-
-		});
-
-		// TODO - Update and Delete individual nodes
-	}
-
-	Hotspot.prototype.getData = function() {
-		var widget = this;
-		
-		if (localStorage.getItem(this.config.LS_Variable) === null && this.config.data.length == 0) {
-
-			if (this.config.ajax) {
-				// Making AJAX call to fetch Data
-				var dataObject = { 
-					data: {
-						HotspotPlugin_mode: "Retrieve"
-					}
-				};
-				var ajaxSettings = $.extend({}, this.config.ajaxOptions, dataObject);
-				$.ajax(ajaxSettings)
-				.done(function(data) {
-					localStorage.setItem(widget.config.LS_Variable, data);
-					var obj = JSON.parse(data);
-					widget.beautifyData();
-				})
-				.fail(function() {
-					return;
-				});
-			} else {
-				return;
-			}
-			
-		} 
-
-		if (this.config.mode == 'admin' && localStorage.getItem(this.config.LS_Variable) === null) {
-			return;
-		} 
-		
-		this.beautifyData();
-	}
-
-	Hotspot.prototype.beautifyData = function() {
-		var widget = this;
-
-		if (this.config.mode != 'admin' && this.config.data.length != 0) {
-			var obj = this.config.data;
-		} else {
-			var raw = localStorage.getItem(this.config.LS_Variable);
-			var obj = JSON.parse(raw);
 		}
-
-		for (var i = obj.length - 1; i >= 0; i--) {
-			var el = obj[i];
-
-			if (this.config.interactivity === 'none') {
-				var htmlBuilt = $('<div/>');
-			} else {
-				var htmlBuilt = $('<div/>').addClass(this.config.hiddenClass);
-			}
-
-			$.each(el, function(index, val) {
-				if (typeof val === "string") {
-					$('<div/>', {
-						html: val
-					}).addClass('Hotspot_' + index).appendTo(htmlBuilt);
-				};
-			});
-
-			var div = $('<div/>', {
-				html: htmlBuilt
-			}).css({
-				'top': el.y + 'px',
-				'left': el.x + 'px'
-			}).addClass(this.config.hotspotClass).appendTo(this.element);
-
-			if (widget.config.interactivity === 'click') {
-				div.on(widget.config.interactivity, function(event) {
-					$(this).children('div').toggleClass(widget.config.hiddenClass);
-				});
-				htmlBuilt.css('display', 'block');
-			} else {
-				htmlBuilt.removeClass(this.config.hiddenClass);
-			}
-
-			if (this.config.interactivity === 'none') {
-				htmlBuilt.css('display', 'block');
-			}
-		};
 	};
 
-	Hotspot.prototype.storeData = function(data) {
+	Hotspot.prototype.fetchData = function() {
+		var widget = this;
 
-		if (data.length == 0) {
-			return;
+		// Fetch data from a server
+		var options = {
+			data: {
+				HotspotPlugin_mode: "Retrieve"
+			}
 		};
 
-		var raw = localStorage.getItem(this.config.LS_Variable);
-		obj = [];
-		
-		if (raw) {
-			var obj = JSON.parse(raw);
-		};
+		$.ajax($.extend({}, this.config.ajaxOptions, options))
+			.done(function(data) {
+				// Storing in localStorage
+				localStorage.setItem(widget.config.LS_Variable, data);
+				widget.parseData();
+			})
+			.fail($.noop);
+	};
 
-		$.each(data, function(index) {
-			var node = data[index];
+	Hotspot.prototype.parseData = function() {
+		var widget = this;
 
-			obj.push(node);
+		var data = this.config.data,
+			data_from_storage = localStorage.getItem(this.config.LS_Variable);
+
+		if (data_from_storage && (this.config.mode === 'admin' || !this.config.data.length)) {
+			data = JSON.parse(data_from_storage);
+		}
+
+		$.each(data, function(index, hotspot){
+			widget.displaySpot(hotspot);
+		});
+	};
+
+	Hotspot.prototype.displaySpot = function(hotspot, unsaved) {
+		var widget = this;
+
+		var spot_html = $('<div/>');
+
+		$.each(hotspot, function(index, val) {
+			if (typeof val === "string") {
+				$('<div/>', {
+					html: val
+				}).addClass('Hotspot_' + index).appendTo(spot_html);
+			}
 		});
 
-		localStorage.setItem(this.config.LS_Variable, JSON.stringify(obj));
+		var height = $(this.tagElement[0]).height(),
+				width = $(this.tagElement[0]).width(),
+				offset = this.tagElement.offset(),
+				parent_offset = this.element.offset();
 
-		this.broadcast = 'Saved to LocalStorage';
-		this.element.trigger('afterSave.hotspot');
+		var spot = $('<div/>', {
+			html: spot_html
+		}).css({
+			'top': (hotspot.y * height / 100) + (offset.top - parent_offset.top) + 'px',
+			'left': (hotspot.x * width / 100) + (offset.left - parent_offset.left) + 'px'
+		}).addClass(this.config.hotspotClass).appendTo(this.element);
+
+		if (unsaved) {
+			spot.addClass(this.config.unsavedHotspotClass);
+		}
+
+		if (this.config.interactivity === 'hover') {
+			return;
+		}
+
+		// Overwrite CSS rule for `none` & `click` interactivity
+		spot_html.css('display', 'block');
+
+		// Initially keep hidden
+		if (this.config.interactivity !== 'none') {
+			spot_html.addClass(this.config.hiddenClass);
+		}
+
+		if (this.config.interactivity === 'click') {
+			spot.on('click', function(event) {
+				spot_html.toggleClass(widget.config.hiddenClass);
+			});
+		} else {
+			spot_html.removeClass(this.config.hiddenClass);
+		}
+	};
+
+	Hotspot.prototype.saveData = function(data) {
+		if (!data.length) {
+			return;
+		}
+
+		// Get previous data
+		var raw_data = localStorage.getItem(this.config.LS_Variable);
+		
+		var hotspots = [];
+
+		if (raw_data) {
+			hotspots = JSON.parse(raw_data);
+		}
+
+		// Append to previous data
+		$.each(data, function(index, node) {
+			hotspots.push(node);
+		});
+
+		localStorage.setItem(this.config.LS_Variable, JSON.stringify(hotspots));
+
+		this.element.trigger('afterSave.hotspot', [null, hotspots]);
 	};
 
 	Hotspot.prototype.removeData = function() {
 		if (localStorage.getItem(this.config.LS_Variable) === null) {
 			return;
-		};
+		}
 		if (!confirm("Are you sure you wanna do everything?")) {
 			return;
-		};
+		}
 		localStorage.removeItem(this.config.LS_Variable);
-		this.broadcast = 'Removed successfully';
-		this.element.trigger('afterRemove.hotspot');
+		this.element.trigger('afterRemove.hotspot', [null, 'Removed']);
 	};
 
-	Hotspot.prototype.syncToServer = function() {
-		if (localStorage.getItem(this.config.LS_Variable) === null) {
-			return;
-		};
-		
-		if (this.config.ajax) {
-			// AJAX call to sync to server
-			var widget = this;
-			var dataObject = { 
-				data: {
-					HotspotPlugin_data: localStorage.getItem(this.config.LS_Variable),
-					HotspotPlugin_mode: "Store"
-				}
-			};
-			var ajaxSettings = $.extend({}, this.config.ajaxOptionsForStoring, dataObject);
-			$.ajax(ajaxSettings)
-			.done(function() {
-				widget.broadcast = 'Sync was successful';
-				widget.element.trigger('afterSyncToServer.hotspot');
-			})
-			.fail(function() {
-				widget.broadcast = 'Error';
-				widget.element.trigger('afterSyncToServer.hotspot');
-			});
-		} else {
+	Hotspot.prototype.sendData = function() {
+		if (localStorage.getItem(this.config.LS_Variable) === null || !this.config.ajax) {
 			return;
 		}
+		
+		var widget = this;
+
+		var options = {
+			data: {
+				HotspotPlugin_data: localStorage.getItem(this.config.LS_Variable),
+				HotspotPlugin_mode: "Store"
+			}
+		};
+
+		$.ajax($.extend({}, this.config.ajaxOptions, options))
+			.done(function() {
+				widget.element.trigger('afterSend.hotspot', [null, 'Sent']);
+			})
+			.fail(function(err) {
+				widget.element.trigger('afterSend.hotspot', [err]);
+			});
 	};
 
 	$.fn.hotspot = function (options) {
 		new Hotspot(this, options);
 		return this;
-	}
+	};
 
 }(jQuery));

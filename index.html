@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>jQuery Hotspot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/jquery.hotspot.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/demo-style.css" media="screen">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">jQuery Hotspot</h1>
-      <h2 class="project-tagline">A jquery plugin for creating and displaying Hotspots in an HTML element.</h2>
-      <a href="https://github.com/aniruddhanath/jquery-hotspot" class="btn">View Documentation</a>
-      <a href="https://github.com/aniruddhanath/jquery-hotspot" class="btn">View on GitHub</a>
-      <a href="https://github.com/aniruddhanath/jquery-hotspot/zipball/master" class="btn">Download .zip</a>
-    </section>
+    <head>
+        <meta charset="UTF-8">
+        <title>jQuery Hotspot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/github-light.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/jquery.hotspot.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/demo-style.css" media="screen">
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+    </head>
+    <body>
+        <section class="page-header">
+            <h1 class="project-name">jQuery Hotspot</h1>
+            <h2 class="project-tagline">A jquery plugin for creating and displaying Hotspots in an HTML element.</h2>
+            <a href="https://github.com/aniruddhanath/jquery-hotspot" class="btn">View Documentation</a>
+            <a href="https://github.com/aniruddhanath/jquery-hotspot" class="btn">View on GitHub</a>
+            <a href="https://github.com/aniruddhanath/jquery-hotspot/zipball/master" class="btn">Download .zip</a>
+        </section>
 
-    <section class="main-content">
+        <section class="main-content">
 
             <p>This plugin operates in two modes, admin and display. The admin mode enables user to create hotspots on desired HTML elements. The display mode is used for only displaying the hotspots to the end user. The design of the hotspot created are fully customizable. User can add their own CSS class to style the hotspots.</p>
 
-            <div class="panel panel-success" id="example-display">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     <h2>Example - Display mode</h2>
                 </div>
                 <div class="panel-body">
                     <p>Hover over the spots</p>
-                    <div class="col-md-offset-3 col-md-4">
+                    <div class="col-md-12">
                         <div id="theElement-0">
                             <img src="images/sample-image.png">
                         </div>
@@ -39,116 +39,83 @@
                 </div>
             </div>
 
-            <div class="panel panel-info" id="example-admin">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <h2>Example - Admin mode</h2>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-6">
+                    <div class="col-md-6 admin_mode">
+                        <code>Interactivity: click</code>
                         <div id="theElement-a">
-                            <img src="images/sample-image1.jpg" width="480" height="400">
+                            <img src="images/sample-image1.jpg">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 admin_mode">
+                        <code>Interactivity: none</code>
                         <div id="theElement-b">
-                            <img src="images/sample-image2.jpg" width="480" height="400">
+                            <img src="images/sample-image2.jpg">
                         </div>
                     </div>
                 </div>
             </div>
 
             <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/aniruddhanath/jquery-hotspot">jQuery Hotspot</a> is maintained by <a href="https://github.com/aniruddhanath">aniruddhanath</a>.</span>
+                <span class="site-footer-owner"><a href="https://github.com/aniruddhanath/jquery-hotspot">jQuery Hotspot</a> is maintained by <a href="https://github.com/aniruddhanath">aniruddhanath</a>.</span>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a>.</span>
-      </footer>
-
+                <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a>.</span>
+            </footer>
         </section>
 
         <script type="text/javascript" src="js/jquery.hotspot.js"></script>
 
         <script type="text/javascript">
-        $("#theElement-0").hotspot({
-            data: [
-                {"x":430,"y":245,"Title":"Hailakandi","Message":""},
-                {"x":406,"y":225,"Title":"Guwahati","Message":""},
-                {"x":261,"y":383,"Title":"Visakhapatnam","Message":""},
-                {"x":181,"y":454,"Title":"Hyderabad","Message":""},
-                {"x":338,"y":300,"Title":"Kolkata","Message":""},
-                {"x":170,"y":180,"Title":"Delhi","Message":""}
-            ],
-            tag: 'img', //optional (default is img)
-            interactivity: "hover", // options : click, none (default is hover)
-            hotspotClass: 'Hotspot'
-        });
+            $("#theElement-0").hotspot({
+                data: [
+                    {"x":32.975781250000004,"y":30.447309176672384,"Title":"Delhi","Message":"Delhi, India's capital territory, is a massive metropolitan area in the country's north. In Old Delhi, a neighborhood dating to the 1600s, stands the imposing Mughal-era Red Fort, a symbol of India, and the sprawling Jama Masjid mosque, whose courtyard accommodates 25,000 people. Nearby is Chandni Chowk, a vibrant bazaar filled with food carts, sweets shops and spice stalls."},
+                    {"x":17.57578125,"y":61.15056818181818,"Title":"Mumbai","Message":"Mumbai (formerly called Bombay) is a densely populated city on India's west coast. A financial center, it's India's largest city. On the Mumbai Harbour waterfront stands the iconic Gateway of India stone arch, built by the British Raj in 1924. Offshore, nearby Elephanta Island holds ancient cave temples dedicated to the Hindu god Shiva. The city's also famous as the heart of the Bollywood film industry."}
+                ],
+                interactivity: "hover", // options : click, none (default is hover)
+            });
 
-        $("#theElement-a").hotspot({
-            mode: "admin",
-            // uncomment
-            /*ajax: true,
-            ajaxOptions: {
-                'url': 'links.to.server'
-            },*/
-            LS_Variable: "HotspotPlugin-a",
-            done_btnId: 'done-a',
-            remove_btnId: 'remove-a',
-            server_btnId: 'server-a',
+            $("#theElement-a").hotspot({
+                mode: "admin",
+                interactivity: "click",
+                LS_Variable: "HotspotPlugin-a",
 
-            done_btnClass: 'btn btn-success controls',
-            remove_btnClass: 'btn btn-danger controls',
-            sync_btnClass: 'btn btn-info controls',
+                afterSave: function(err, data) {
+                    alert('Hotspot data saved');
+                },
+                afterRemove: function(err, message) {
+                    alert('Hotspot data removed');
+                    window.location.reload();
+                }
+            });
 
-            afterSave: function(message) {
-                alert(message);
-            },
-            afterRemove: function(message) {
-                alert(message);
-                window.location.reload();
-            },
-            afterSyncToServer: function(message) {
-                alert(message);
-            }
-        });
+            $("#theElement-b").hotspot({
+                mode: "admin",
+                interactivity: "none",
+                LS_Variable: "HotspotPlugin-b",
 
-        $("#theElement-b").hotspot({
-            mode: "admin",
-            // uncomment
-            /*ajax: true,
-            ajaxOptions: {
-                'url': 'links.to.server'
-            },*/
-            LS_Variable: "HotspotPlugin-b",
-            done_btnId: 'done-b',
-            remove_btnId: 'remove-b',
-            server_btnId: 'server-b',
-
-            done_btnClass: 'btn btn-success controls',
-            remove_btnClass: 'btn btn-danger controls',
-            sync_btnClass: 'btn btn-info controls',
-
-            afterSave: function(message) {
-                alert(message);
-            },
-            afterRemove: function(message) {
-                alert(message);
-                window.location.reload();
-            },
-            afterSyncToServer: function(message) {
-                alert(message);
-            }
-        });
+                afterSave: function(err, data) {
+                    alert('Hotspot data saved');
+                },
+                afterRemove: function(err, message) {
+                    alert('Hotspot data removed');
+                    window.location.reload();
+                }
+            });
         </script>
 
         <script type="text/javascript">
-      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-      try {
-        var pageTracker = _gat._getTracker("UA-62099578-1");
-      pageTracker._trackPageview();
-      } catch(err) {}
-    </script>
+            // var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            // document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            // try {
+            //     var pageTracker = _gat._getTracker("UA-62099578-1");
+            //     pageTracker._trackPageview();
+            // } catch(err) {}
+        </script>
 
     </body>
 </html>

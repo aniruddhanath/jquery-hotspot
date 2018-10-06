@@ -1,11 +1,21 @@
-
-#HotspotPlugin_image {
-	position: relative;
-	display: inline-block;
+/*
+* Hotspot
+* 
+*/
+.HotspotPlugin_Hotspot {
+	height: 20px;
+	width: 20px;
+	position: absolute;
+	background: #1ABC9C;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 200;
+	margin-left: -10px;
+	margin-top: -10px;
 }
 
 /*
-* Hotspot message
+* Hotspot content
 * 
 */
 .HotspotPlugin_Hotspot > div {
@@ -34,28 +44,16 @@
 	height: 72px;
 	overflow-y: auto;
 }
-
-/*
-* Hotspots
-* 
-*/
-.HotspotPlugin_Hotspot {
-	height: 20px;
-	width: 20px;
-	position: absolute;
-	background: #1ABC9C;
-	border-radius: 50%;
-	cursor: pointer;
-	z-index: 200;
-	margin-left: -10px;
-	margin-top: -10px;
+.HotspotPlugin_Hotspot_Hidden {
+	display: none!important;
+	visibility: hidden!important;
 }
 
 /*
 * Hotspots immediately after creation - admin-mode
 * 
 */
-.HotspotPlugin_inc {
+.HotspotPlugin_Hotspot_Unsaved {
 	background: #4E6FF3;
 }
 
@@ -79,21 +77,31 @@ span.HotspotPlugin_Overlay > p {
 }
 
 /*
-* Buttons - admin-mode
+* Action buttons - `admin` mode
 * 
 */
-button.HotspotPlugin_Done {
+button.HotspotPlugin_Save,
+button.HotspotPlugin_Remove,
+button.HotspotPlugin_Send {
 	position: absolute;
-	right: -120px;
-	bottom: 38px;
+	bottom: -35px;
+	color: #fff;
+	display: inline-block;
+	padding: 4px 6px;
+	font-size: 14px;
+	text-align: center;
+	border-radius: 4px;
+}
+
+button.HotspotPlugin_Save {
+	left: 0px;
+	background-color: #5cb85c;
 }
 button.HotspotPlugin_Remove {
-	position: absolute;
-	right: -120px;
-	bottom: 2px;
+	left: 80px;
+	background-color: #d9534f;
 }
-button.HotspotPlugin_Server {
-	position: absolute;
-	right: -120px;
-	bottom: 74px;
+button.HotspotPlugin_Send {
+	left: 180px;
+	background-color: #5bc0de;
 }
