@@ -91,7 +91,18 @@
 			}
 		});
 
-		this.init();
+		if (this.config.tag !== 'img') {
+			widget.init();
+			return;
+		}
+
+		if (this.tagElement.prop('complete')) {
+			widget.init();
+		} else {
+			this.tagElement.one('load', function(event) {
+				widget.init();
+			});
+		}
 	}
 
 	Hotspot.prototype.init = function() {
