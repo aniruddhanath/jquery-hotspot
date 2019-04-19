@@ -41,7 +41,7 @@ There are three options given for hotspot-interactivity - hover, click and none.
 
 ### Basic call with known coordinates:
 ```
-$('#theElement').hotspot(
+$('#theElement').hotspot({
   data: [
     { "x":18, "y":38, "Title":"The Title","Message":"Create the Message here" },
     { "x":43, "y":40, "Title":"jQuery Hotspot","Message":"This jQuery Plugin lets you create hotspot to any HTML element." }
@@ -49,7 +49,7 @@ $('#theElement').hotspot(
   tag: 'img', //optional (default is img)
   interactivity: "hover", // options : click, none (default is hover)
   hotspotClass: 'Hotspot'
-);
+});
 ```
 The `data` object above can be populated with any number of properties and can be designed with appropriate CSS. The `tag` variable passed to the plugin determines the type of HTML tag for which the hotspot is obtained. The `hotspotClass` is class of the hotspots created. One can change the look of the  hotspot by applying some CSS to this class.
 
