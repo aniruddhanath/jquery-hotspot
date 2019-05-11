@@ -53,6 +53,11 @@ $('#theElement').hotspot({
 ```
 The `data` object above can be populated with any number of properties and can be designed with appropriate CSS. The `tag` variable passed to the plugin determines the type of HTML tag for which the hotspot is obtained. The `hotspotClass` is class of the hotspots created. One can change the look of the  hotspot by applying some CSS to this class.
 
+By default in display mode, repositioning of hotspots on window resize is enabled. To disable this, a parameter can be passed in the plugin options.
+```
+listenOnResize: false
+```
+
 ### Fetching data via AJAX call
 ```
 $("#theElement").hotspot({
