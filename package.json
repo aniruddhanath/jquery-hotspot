@@ -1,6 +1,6 @@
 {
   "name": "jquery-hotspot",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "jQuery plugin to create editable Hotspots on any HTML elements",
   "main": "jquery.hotspot.js",
   "directories": {
