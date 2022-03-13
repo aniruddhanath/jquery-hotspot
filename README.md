@@ -175,6 +175,22 @@ $("#theElement-b").hotspot({
 });
 ```
 
+4. The plugin can, optionally, accept a user-defined onclick event handler that will be invoked when a hotspot is clicked (only available with interactivity of "click").  The handler will receive the selected hotspot as it's only argument.
+
+Javascript:
+
+```
+$('#theElement').hotspot({
+  data: [
+    { "x":18, "y":38, "Title":"The Title","Message":"Create the Message here" },
+    { "x":43, "y":40, "Title":"jQuery Hotspot","Message":"This jQuery Plugin lets you create hotspot to any HTML element." }
+  ],
+  interactivity: "click",
+  onclick: function(selected_hotspot) { console.log(selected_hotspot.Title); }
+});
+```
+
+
 For better clarity the examples folder can be checked
 
 
