@@ -310,6 +310,10 @@
 
 		if (this.config.interactivity === 'click') {
 			spot.on('click', function(event) {
+				// Handle User-Defined onclick event, if defined
+				if(widget.config.hasOwnProperty('onclick')) {
+                                    widget.config.onclick(hotspot)
+				}
 				spot_html.toggleClass(widget.config.hiddenClass);
 			});
 		} else {
